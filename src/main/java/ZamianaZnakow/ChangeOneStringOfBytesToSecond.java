@@ -53,6 +53,7 @@ public class ChangeOneStringOfBytesToSecond extends Application {
 
 
 
+
             try {
                 if (file.isFile()) {
                     if (file.getName().endsWith(s2)) {
