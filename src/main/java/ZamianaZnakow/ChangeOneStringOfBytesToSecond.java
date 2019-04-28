@@ -22,25 +22,18 @@ import java.nio.file.Paths;
 
 /*
 Program bedzie sprzedawany wielu uzytkownikom. Zrobic program, ktory przyjmuje 4 parametry:
-1. nazwe przeszukiwanego pliku, 2.
+1. nazwe przeszukiwanego katalogu, 2.
  */
 
-
-// !!!!!!!!!!!!
-// !!!!!!!!!!!!
-// !!!!!!!!!!!!
-// !!!!!!!!!!!!
 
 public class ChangeOneStringOfBytesToSecond extends Application {
 
 
-    public void listFilesAndFilesSubDirectories(String directoryName, TextField firstValue, TextField secondValue, TextField thirdValue, TextField fourthValue) {
+    private void listFilesAndFilesSubDirectories(String directoryName, TextField firstValue, TextField secondValue, TextField thirdValue, TextField fourthValue) {
 
         File directory = new File(directoryName);
-//        String filePath = firstValue.getText() + "." + secondValue.getText();
         String newString = thirdValue.getText();
         String oldString = fourthValue.getText();
-
 
 
         File[] fList = directory.listFiles();
@@ -60,15 +53,12 @@ public class ChangeOneStringOfBytesToSecond extends Application {
 
                         try {
 
-                            System.out.println(file.getPath());
                             String contents = new String(Files.readAllBytes(Paths.get(file.getPath()))); // zamienienie pliku na Stringa
                             String contents2 = contents.replace(newString, oldString); // String po zamianie znakow
 
-                            FileOutputStream fos = null;
+                            FileOutputStream fos = new FileOutputStream(file.getAbsolutePath());
 
-                            fos = new FileOutputStream(file.getAbsolutePath());
-
-                            DataOutputStream outStream = new DataOutputStream(new BufferedOutputStream(fos));
+                            DataOutputStream outStream = new DataOutputStream(new BufferedOutputStream(fos)); // pozwala na wpisanie pliku
 
                             outStream.writeUTF(contents2);
 
@@ -101,9 +91,10 @@ public class ChangeOneStringOfBytesToSecond extends Application {
         rootNode.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
         rootNode.setPadding(new Insets(5));
 
-
+        // tworzenie odstepu pomiedzy elementami
         rootNode.setHgap(5);
         rootNode.setVgap(5);
+
         rootNode.setAlignment(Pos.CENTER);
 
         Scene myScene = new Scene(rootNode, 900, 350);
@@ -127,8 +118,8 @@ public class ChangeOneStringOfBytesToSecond extends Application {
         rootNode.add(fourthValue, 1, 3);
 
 
-
-        rootNode.setStyle("-fx-font-size: 18px; -fx-font-weight: 900;"); // zmiana rozmiaru czcionki i jej pogrubienie
+        // zmiana rozmiaru czcionki i jej pogrubienie
+        rootNode.setStyle("-fx-font-size: 18px; -fx-font-weight: 900;");
 
 
 
@@ -136,16 +127,14 @@ public class ChangeOneStringOfBytesToSecond extends Application {
 
         Button executiveButton = new Button("Wykonaj");
         executiveButton.setStyle("-fx-font-size: 20pt;");
+        rootNode.add(executiveButton, 1, 5);
 
-        rootNode.add(executiveButton, 1, 6);
 
         // akcja po nacisnieciu
         executiveButton.setOnAction(e -> {
 
-
             String directory = firstValue.getText();
             listFilesAndFilesSubDirectories(directory, firstValue, secondValue, thirdValue, fourthValue);
-//            System.out.println("koniec");
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setHeaderText("Sukces!");
