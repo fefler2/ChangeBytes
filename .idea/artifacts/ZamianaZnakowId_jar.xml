@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ZamianaZnakowId:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/ZamianaZnakowId_jar</output-path>
+    <root id="archive" name="ZamianaZnakowId.jar">
+      <element id="module-output" name="ZamianaZnakowId" />
+    </root>
+  </artifact>
+</component>

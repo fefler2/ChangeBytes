@@ -19,58 +19,53 @@ import java.nio.file.Paths;
 
 /*
 Program bedzie sprzedawany wielu uzytkownikom. Zrobic program, ktory przyjmuje 4 parametry:
-1. nazwe przeszukiwanego katalogu, 2.
+1. nazwe przeszukiwanego katalogu
+2. rozszerzenie nazwy pliku
+3. wyszukiwany ciag bajtow
+4. to, na jakki ciag bajtow ma byc zamieniony plik
+Program ma wyszukiwac dane pliki we wszystkich katalogach i podkatalogach.
+Program powinien miec jakis przycisk zeby rozpoczac wyszukiwanie
  */
 
 
 public class ChangeOneStringOfBytesToSecond extends Application {
 
 
-    private void listFilesAndFilesSubDirectories(String directoryName, TextField firstValue, TextField secondValue, TextField thirdValue, TextField fourthValue) {
+    private void listFilesAndFilesSubDirectories(String directoryName, TextField secondValue, TextField thirdValue, TextField fourthValue) {
 
         File directory = new File(directoryName);
         String newString = thirdValue.getText();
         String oldString = fourthValue.getText();
 
-
+        // zwraca sciezki
         File[] fList = directory.listFiles();
 
-        String s = firstValue.getText();
-        String s2 = secondValue.getText();
+        String s = secondValue.getText();
 
         assert fList != null; // zeby nie bylo NullPointerException
+
         for (File file : fList) {
-
-
-
-
             try {
                 if (file.isFile()) {
-                    if (file.getName().endsWith(s2)) {
-
+                    if (file.getName().endsWith(s)) {
                         try {
-
                             String contents = new String(Files.readAllBytes(Paths.get(file.getPath()))); // zamienienie pliku na Stringa
                             String contents2 = contents.replace(newString, oldString); // String po zamianie znakow
 
                             FileOutputStream fos = new FileOutputStream(file.getAbsolutePath());
 
-                            DataOutputStream outStream = new DataOutputStream(new BufferedOutputStream(fos)); // pozwala na wpisanie pliku
+                            DataOutputStream outStream = new DataOutputStream(new BufferedOutputStream(fos)); // pozwala na wpisanie do pliku
 
                             outStream.writeUTF(contents2);
 
                             outStream.close();
 
-
-
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
-                }
-
-                else if (file.isDirectory()) {
-                    listFilesAndFilesSubDirectories(file.getAbsolutePath(), firstValue, secondValue, thirdValue, fourthValue);
+                } else if (file.isDirectory()) {
+                    listFilesAndFilesSubDirectories(file.getAbsolutePath(), secondValue, thirdValue, fourthValue);
                 }
             } catch (NullPointerException e) {
 
@@ -86,7 +81,6 @@ public class ChangeOneStringOfBytesToSecond extends Application {
 
         GridPane rootNode = new GridPane();
         rootNode.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
-        rootNode.setPadding(new Insets(5));
 
         // tworzenie odstepu pomiedzy elementami
         rootNode.setHgap(5);
@@ -118,10 +112,6 @@ public class ChangeOneStringOfBytesToSecond extends Application {
         // zmiana rozmiaru czcionki i jej pogrubienie
         rootNode.setStyle("-fx-font-size: 18px; -fx-font-weight: 900;");
 
-
-
-
-
         Button executiveButton = new Button("Wykonaj");
         executiveButton.setStyle("-fx-font-size: 20pt;");
         rootNode.add(executiveButton, 1, 5);
@@ -133,7 +123,7 @@ public class ChangeOneStringOfBytesToSecond extends Application {
             String directory = firstValue.getText();
             try {
 
-                listFilesAndFilesSubDirectories(directory, firstValue, secondValue, thirdValue, fourthValue);
+                listFilesAndFilesSubDirectories(directory, secondValue, thirdValue, fourthValue);
 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setHeaderText("Sukces!");
@@ -141,27 +131,21 @@ public class ChangeOneStringOfBytesToSecond extends Application {
 
                 alert.showAndWait();
 
-            }
-            catch (Exception e3) {
+            } catch (Exception e3) {
                 Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-
 
                 errorAlert.setHeaderText("Błąd!");
                 errorAlert.setContentText("Upewnij się że wpisałeś dobrą ścieżkę.");
                 errorAlert.showAndWait();
-
             }
 
         });
 
         myStage.setScene(myScene);
-
         myStage.show();
-
     }
 
     public static void main(String[] args) {
         launch(args);
     }
-
 }
