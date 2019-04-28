@@ -5,10 +5,7 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -100,7 +97,7 @@ public class ChangeOneStringOfBytesToSecond extends Application {
         Scene myScene = new Scene(rootNode, 900, 350);
 
         // tworzenie przyciskow
-        rootNode.add(new Label("Wprowadz nazwe katalogu, w ktorym chcesz dokonac zmiany"), 0, 0);
+        rootNode.add(new Label("Wprowadź nazwę katalogu, w którym chcesz dokonać zmiany"), 0, 0);
         TextField firstValue = new TextField();
 
         rootNode.add(firstValue, 1, 0);
@@ -109,11 +106,11 @@ public class ChangeOneStringOfBytesToSecond extends Application {
         TextField secondValue = new TextField();
         rootNode.add(secondValue, 1, 1);
 
-        rootNode.add(new Label("Wpisz ciag bajtow jaki chcesz zamienic"), 0, 2);
+        rootNode.add(new Label("Wpisz ciąg bajtów jaki chcesz zamienić"), 0, 2);
         TextField thirdValue = new TextField();
         rootNode.add(thirdValue, 1, 2);
 
-        rootNode.add(new Label("Wpisz ciag bajtow na jaki chcesz zamienic poprzedni ciag bajtow"), 0, 3);
+        rootNode.add(new Label("Wpisz ciąg bajtów na jaki chcesz zamienić poprzedni ciąg bajtów"), 0, 3);
         TextField fourthValue = new TextField();
         rootNode.add(fourthValue, 1, 3);
 
@@ -134,14 +131,26 @@ public class ChangeOneStringOfBytesToSecond extends Application {
         executiveButton.setOnAction(e -> {
 
             String directory = firstValue.getText();
-            listFilesAndFilesSubDirectories(directory, firstValue, secondValue, thirdValue, fourthValue);
+            try {
 
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setHeaderText("Sukces!");
-            alert.setContentText("Pomyslnie dokonano zmiany");
+                listFilesAndFilesSubDirectories(directory, firstValue, secondValue, thirdValue, fourthValue);
 
-            alert.showAndWait();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setHeaderText("Sukces!");
+                alert.setContentText("Pomyslnie dokonano zmiany.");
 
+                alert.showAndWait();
+
+            }
+            catch (Exception e3) {
+                Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+
+
+                errorAlert.setHeaderText("Błąd!");
+                errorAlert.setContentText("Upewnij się że wpisałeś dobrą ścieżkę.");
+                errorAlert.showAndWait();
+
+            }
 
         });
 
